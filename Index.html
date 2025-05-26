@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inventario Escuela - Login y Gestión - Claro/Oscuro</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+    :root {
+      --color-background-light: #f0f7f0;
+      --color-text-light: #2e4d1e;
+      --color-header-bg-light: #f8f9fa;
+      --color-header-text-light: #333;
+      --color-btn-bg-light: #2e7d32;
+      --color-btn-bg-light-hover: #1b4d18;
+      --color-border-light: #a5d6a7;
+
+      --color-background-dark: #121212;
+      --color-text-dark: #e0e0e0;
+      --color-header-bg-dark: #1f1f1f;
+      --color-header-text-dark: #e8f5e9;
+      --color-btn-bg-dark: #388e3c;
+      --color-btn-bg-dark-hover: #266629;
+      --color-border-dark: #4caf50;
+    }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: var(--color-background-light);
+      color: var(--color-text-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.dark {
+      background: var(--color-background-dark);
+      color: var(--color-text-dark);
+    }
+
+    header {
+      background: var(--color-header-bg-light);
+      color: var(--color-header-text-light);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+      user-select: none;
+      gap: 1rem;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto 1rem auto;
+      border-radius: 12px 12px 0 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.dark header {
+      background: var(--color-header-bg-dark);
+      color: var(--color-header-text-dark);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.7);
+    }
+
+    header img {
+      height: 48px;
+      width: auto;
+      user-select: none;
+    }
+
+    main {
+      max-width: 1100px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      padding: 1rem 2rem 2rem 2rem;
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.dark main {
+      background: #242424;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+      color: var(--color-text-dark);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Login form */
+    #loginForm {
+      max-width: 350px;
+      width: 100%;
+      background: #dcedc8;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 0 12px rgba(46,125,50,0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.dark #loginForm {
+      background: #333;
+      box-shadow: 0 0 15px rgba(56,142,60,0.7);
+      color: var(--color-text-dark);
+    }
+
+    #loginForm h2 {
+      margin-bottom: 1.5rem;
+      text-align: center;
+      color: #2e7d32;
+      width: 100%;
+      transition: color 0.3s;
+    }
+
+    body.dark #loginForm h2 {
+      color: var(--color-btn-bg-dark);
+    }
+
+    #loginForm label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: #2e7d32;
+      width: 100%;
+      transition: color 0.3s;
+    }
+
+    body.dark #loginForm label {
+      color: var(--color-btn-bg-dark);
+    }
+
+    #loginForm input[type="text"],
+    #loginForm input[type="password"] {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      border: 1.8px solid var(--color-border-light);
+      border-radius: 8px;
+      transition: border-color 0.3s ease, background-color 0.3s, color 0.3s;
+      background: white;
+      color: black;
+    }
+
+    body.dark #loginForm input[type="text"],
+    body.dark #loginForm input[type="password"] {
+      border-color: var(--color-border-dark);
+      background: #444;
+      color: var(--color-text-dark);
+    }
+
+    #loginForm input[type="text"]:focus,
+    #loginForm input[type="password"]:focus {
+      outline: none;
+      border-color: #2e7d32;
+    }
+
+    body.dark #loginForm input[type="text"]:focus,
+    body.dark #loginForm input[type="password"]:focus {
+      border-color: var(--color-btn-bg-dark);
+    }
+
+    #loginForm button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #2e7d32;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+
+    #loginForm button:hover {
+      background-color: #1b4d18;
+    }
+
+    body.dark #loginForm button {
+      background-color: var(--color-btn-bg-dark);
+    }
+
+    body.dark #loginForm button:hover {
+      background-color: #266629;
+    }
+
+    #errorMsg {
+      color: #b71c1c;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      text-align: center;
+      width: 100%;
+    }
+
+    /* Inventory section */
+
+    #logoutBtn {
+      background-color: #a93226;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: 700;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      margin-bottom: 1rem;
+      user-select: none;
+      transition: background-color 0.3s ease;
+      align-self: flex-end;
+    }
+
+    #logoutBtn:hover {
+      background-color: #732117;
+    }
+
+    #searchBox {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 0 1rem 0;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border: 1.8px solid var(--color-border-light);
+      border-radius: 8px;
+      transition: border-color 0.3s ease;
+      text-align: center;
+      background-color: white;
+      color: black;
+    }
+
+    body.dark #searchBox {
+      border-color: var(--color-border-dark);
+      background-color: #444;
+      color: var(--color-text-dark);
+    }
+
+    #searchBox:focus {
+      outline: none;
+      border-color: #2e7d32;
+    }
+
+    body.dark #searchBox:focus {
+      border-color: var(--color-btn-bg-dark);
+    }
+
+    form#itemForm {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      border-bottom: 2px solid #dcedc8;
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+      width: 100%;
+      max-width: 1100px;
+      color: var(--color-text-light);
+      transition: color 0.3s;
+    }
+
+    body.dark form#itemForm {
+      color: var(--color-text-dark);
+    }
+
+    form#itemForm label {
+      display: flex;
+      flex-direction: column;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: inherit;
+    }
+
+    form#itemForm input[type="text"],
+    form#itemForm input[type="number"],
+    form#itemForm select {
+      margin-top: 0.3rem;
+      padding: 0.5rem 0.75rem;
+      border: 1.8px solid var(--color-border-light);
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease, background-color 0.3s, color 0.3s;
+      text-align: center;
+      background-color: white;
+      color: black;
+    }
+    body.dark form#itemForm input[type="text"],
+    body.dark form#itemForm input[type="number"],
+    body.dark form#itemForm select {
+      border-color: var(--color-border-dark);
+      background: #444;
+      color: var(--color-text-dark);
+    }
+
+    form#itemForm input[type="text"]:focus,
+    form#itemForm input[type="number"]:focus,
+    form#itemForm select:focus {
+      border-color: #2e7d32;
+      outline: none;
+    }
+    body.dark form#itemForm input[type="text"]:focus,
+    body.dark form#itemForm input[type="number"]:focus,
+    body.dark form#itemForm select:focus {
+      border-color: var(--color-btn-bg-dark);
+    }
+
+    form#itemForm button {
+      grid-column: 1 / -1;
+      padding: 0.75rem;
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 0.5rem;
+      width: 160px;
+      justify-self: center;
+      user-select: none;
+    }
+    body.dark form#itemForm button {
+      background-color: var(--color-btn-bg-dark);
+    }
+    
+    form#itemForm button:hover {
+      background-color: #1b4d18;
+    }
+    body.dark form#itemForm button:hover {
+      background-color: #266629;
+    }
+
+    #importExport {
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    #importFile {
+      display: none;
+    }
+
+    #importLabel,
+    #exportPdfBtn,
+    #exportExcelBtn {
+      background-color: #388e3c; /* verde oscuro */
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0.5rem 1.2rem;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1rem;
+      user-select: none;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+      text-align: center;
+    }
+
+    #importLabel:hover,
+    #exportPdfBtn:hover,
+    #exportExcelBtn:hover {
+      background-color: #266629;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      color: var(--color-text-light);
+      transition: color 0.3s;
+    }
+    body.dark .table-container {
+      color: var(--color-text-dark);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      color: inherit;
+    }
+
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: center;
+      border-bottom: 1px solid #c8e6c9;
+      vertical-align: middle;
+    }
+
+    th {
+      background-color: #2e7d32;
+      color: white;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      user-select: none;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    body.dark th {
+      background-color: var(--color-btn-bg-dark);
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #e6f2e6;
+      transition: background-color 0.3s;
+    }
+    body.dark tr:hover {
+      background-color: #3a5a32;
+    }
+
+    .actions button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-right: 0.5rem;
+      font-size: 1.2rem;
+      color: #2e7d32;
+      transition: color 0.3s ease;
+      user-select: none;
+    }
+
+    body.dark .actions button {
+      color: var(--color-btn-bg-dark);
+    }
+
+    .actions button:hover {
+      color: #145214;
+    }
+    body.dark .actions button:hover {
+      color: #1a4521;
+    }
+
+    .thumbnail {
+      width: 50px;
+      height: 40px;
+      object-fit: contain;
+      border-radius: 4px;
+      border: 1px solid #a5d6a7;
+      background: white;
+      margin: 0 auto;
+      display: block;
+      transition: border-color 0.3s;
+    }
+    body.dark .thumbnail {
+      border-color: var(--color-border-dark);
+      background: #444;
+    }
+
+    #categoryTotals {
+      margin-top: 1rem;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #2e7d32;
+      text-align: center;
+      width: 100%;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+      transition: color 0.3s;
+    }
+    body.dark #categoryTotals {
+      color: var(--color-text-dark);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem 0;
+      font-size: 0.85rem;
+      color: #666;
+      background: #f8f9fa;
+      margin-top: auto;
+      user-select: none;
+      width: 100%;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    body.dark footer {
+      background: #121212;
+      color: #aaa;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      form#itemForm {
+        grid-template-columns: 1fr;
+      }
+      form#itemForm button {
+        width: 100%;
+      }
+      #importExport {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      #importLabel, #exportPdfBtn, #exportExcelBtn {
+        width: 100%;
+        text-align: center;
+      }
+      header {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+
+    /* Toggle button */
+    #themeToggle {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      background: var(--color-btn-bg-light);
+      border: none;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      z-index: 1000;
+      transition: background-color 0.3s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    #themeToggle:hover {
+      background: #1b4d18;
+    }
+    body.dark #themeToggle {
+      background: var(--color-btn-bg-dark);
+    }
+    body.dark #themeToggle:hover {
+      background: #266629;
+    }
+  </style>
+</head>
+<body>
+  <button id="themeToggle" aria-label="Cambiar tema">Modo Oscuro</button>
+
+  <header>
+    <img src="https://www.cobaeh.edu.mx/wp-content/themes/cobaeh/images/logo_cobaeh.svg" alt="Logo COBAEH" />
+    Inventario de la Escuela
+  </header>
+
+  <main>
+    <section id="loginSection" aria-label="Inicio de sesión">
+      <form id="loginForm" aria-describedby="errorMsg" novalidate>
+        <h2>Iniciar Sesión</h2>
+        <div id="errorMsg" role="alert" aria-live="assertive"></div>
+        <label for="usernameInput">Usuario</label>
+        <input type="text" id="usernameInput" autocomplete="username" required placeholder="Docente o Alumno" />
+        <label for="passwordInput">Contraseña</label>
+        <input type="password" id="passwordInput" autocomplete="current-password" required placeholder="********" />
+        <button type="submit" aria-label="Iniciar sesión">Entrar</button>
+        <p style="font-size: 0.9rem; margin-top: 1rem; color: inherit;">Usuarios de prueba:<br /><strong>docente</strong>/<em>1234</em> y <strong>alumno</strong>/<em>1234</em></p>
+      </form>
+    </section>
+
+    <section id="inventorySection" class="hidden" aria-label="Gestión de inventario">
+      <button id="logoutBtn" aria-label="Cerrar sesión">Cerrar sesión</button>
+
+      <input type="text" id="searchBox" placeholder="Buscar por nombre o categoría..." aria-label="Buscar ítems" />
+
+      <form id="itemForm" aria-label="Formulario para agregar o editar ítem" novalidate>
+        <label>
+          Nombre del ítem
+          <input type="text" id="nombre" required maxlength="50" placeholder="Ej. Proyector" />
+        </label>
+        <label>
+          Categoría
+          <select id="categoria" required>
+            <option value="">Seleccione categoría</option>
+            <option value="Libros">Libros</option>
+            <option value="Equipos">Equipos</option>
+            <option value="Mobiliario">Mobiliario</option>
+            <option value="Material Didáctico">Material Didáctico</option>
+            <option value="Otros">Otros</option>
+          </select>
+        </label>
+        <label>
+          Cantidad
+          <input type="number" id="cantidad" required min="1" placeholder="1" />
+        </label>
+        <label>
+          Ubicación
+          <input type="text" id="ubicacion" required maxlength="50" placeholder="Ej. Aula 101" />
+        </label>
+        <label>
+          Costo unitario (USD)
+          <input type="number" id="costo" required min="0" step="0.01" placeholder="0.00" />
+        </label>
+        <label>
+          URL imagen (opcional)
+          <input type="text" id="imagenUrl" maxlength="250" placeholder="https://ejemplo.com/imagen.jpg" />
+        </label>
+        <button type="submit" id="submitBtn">Agregar Ítem</button>
+      </form>
+
+      <div id="importExport" aria-label="Importar y exportar datos">
+        <label for="importFile" id="importLabel" tabindex="0" aria-label="Botón para importar inventario">Importar Inventario (XLSX / PDF)</label>
+        <input type="file" id="importFile" accept=".xlsx,.xls,.pdf" aria-hidden="true" />
+        <button id="exportPdfBtn" aria-label="Botón para exportar inventario a PDF">Exportar Inventario PDF</button>
+        <button id="exportExcelBtn" aria-label="Botón para exportar inventario a Excel">Exportar Inventario Excel</button>
+      </div>
+
+      <div class="table-container" aria-live="polite" aria-relevant="all">
+        <table id="inventoryTable" aria-label="Tabla de inventario">
+          <thead>
+            <tr>
+              <th>Imagen</th>
+              <th>Nombre</th>
+              <th>Categoría</th>
+              <th>Cantidad</th>
+              <th>Ubicación</th>
+              <th>Costo Unit.</th>
+              <th>Costo Total</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="categoryTotals" aria-live="polite" aria-atomic="true"></div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2024 COBAEH
+  </footer>
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+    (() => {
+      const jsPDF = window.jspdf.jsPDF;
+
+      const users = {
+        docente: { password: '1234', role: 'docente' },
+        alumno: { password: '1234', role: 'alumno' }
+      };
+
+      const loginSection = document.getElementById('loginSection');
+      const loginForm = document.getElementById('loginForm');
+      const usernameInput = document.getElementById('usernameInput');
+      const passwordInput = document.getElementById('passwordInput');
+      const errorMsg = document.getElementById('errorMsg');
+
+      const inventorySection = document.getElementById('inventorySection');
+      const logoutBtn = document.getElementById('logoutBtn');
+      const searchBox = document.getElementById('searchBox');
+
+      const itemForm = document.getElementById('itemForm');
+      const nombreInput = document.getElementById('nombre');
+      const categoriaSelect = document.getElementById('categoria');
+      const cantidadInput = document.getElementById('cantidad');
+      const ubicacionInput = document.getElementById('ubicacion');
+      const costoInput = document.getElementById('costo');
+      const imagenUrlInput = document.getElementById('imagenUrl');
+      const submitBtn = document.getElementById('submitBtn');
+
+      const inventoryTableBody = document.querySelector('#inventoryTable tbody');
+      const importFile = document.getElementById('importFile');
+      const importLabel = document.getElementById('importLabel');
+      const exportPdfBtn = document.getElementById('exportPdfBtn');
+      const exportExcelBtn = document.getElementById('exportExcelBtn');
+      const categoryTotalsDiv = document.getElementById('categoryTotals');
+
+      const themeToggle = document.getElementById('themeToggle');
+
+      const STORAGE_KEY = "inventarioEscuelaCOBAEH";
+
+      let inventario = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      let currentUser = null;
+      let editIndex = null;
+
+      function saveToStorage() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(inventario));
+      }
+
+      window.addEventListener('storage', (e) => {
+        if(e.key === STORAGE_KEY){
+          inventario = JSON.parse(e.newValue) || [];
+          if(currentUser){
+            renderTable(filterItems(searchBox.value));
+          }
+        }
+      });
+
+      function clearForm() {
+        itemForm.reset();
+        editIndex = null;
+        submitBtn.textContent = 'Agregar Ítem';
+      }
+
+      function updateUIForRole() {
+        if (!currentUser) return;
+        if (currentUser.role === 'alumno') {
+          itemForm.classList.add('hidden');
+          importLabel.classList.add('hidden');
+          exportPdfBtn.classList.add('hidden');
+          exportExcelBtn.classList.add('hidden');
+        } else if (currentUser.role === 'docente') {
+          itemForm.classList.remove('hidden');
+          importLabel.classList.remove('hidden');
+          exportPdfBtn.classList.remove('hidden');
+          exportExcelBtn.classList.remove('hidden');
+        }
+      }
+
+      logoutBtn.addEventListener('click', () => {
+        currentUser = null;
+        inventario = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        inventorySection.classList.add('hidden');
+        loginSection.classList.remove('hidden');
+        loginForm.reset();
+        errorMsg.textContent = '';
+        clearForm();
+        renderTable(inventario);
+      });
+
+      function renderTable(items) {
+        inventoryTableBody.innerHTML = '';
+        if (items.length === 0) {
+          const row = document.createElement('tr');
+          const cell = document.createElement('td');
+          cell.colSpan = 8;
+          cell.style.textAlign = 'center';
+          cell.style.color = '#777';
+          cell.textContent = 'No hay ítems en el inventario.';
+          row.appendChild(cell);
+          inventoryTableBody.appendChild(row);
+          categoryTotalsDiv.textContent = '';
+          return;
+        }
+        items.forEach((item, index) => {
+          const tr = document.createElement('tr');
+
+          const tdImagen = document.createElement('td');
+          if (item.imagenUrl) {
+            const img = document.createElement('img');
+            img.src = item.imagenUrl;
+            img.alt = `Imagen de ${item.nombre}`;
+            img.classList.add('thumbnail');
+            img.onerror = () => { img.src = 'https://via.placeholder.com/50x40?text=No+Img'; };
+            tdImagen.appendChild(img);
+          } else {
+            const placeholder = document.createElement('div');
+            placeholder.textContent = '—';
+            placeholder.style.color = '#bbb';
+            placeholder.style.textAlign = 'center';
+            tdImagen.appendChild(placeholder);
+          }
+
+          const tdNombre = document.createElement('td');
+          tdNombre.textContent = item.nombre;
+
+          const tdCategoria = document.createElement('td');
+          tdCategoria.textContent = item.categoria;
+
+          const tdCantidad = document.createElement('td');
+          tdCantidad.textContent = item.cantidad;
+
+          const tdUbicacion = document.createElement('td');
+          tdUbicacion.textContent = item.ubicacion;
+
+          const tdCosto = document.createElement('td');
+          tdCosto.textContent = item.costo !== undefined ? item.costo.toFixed(2) : '0.00';
+
+          const tdCostoTotal = document.createElement('td');
+          const costoTotal = item.cantidad * (item.costo || 0);
+          tdCostoTotal.textContent = costoTotal.toFixed(2);
+
+          const tdAcciones = document.createElement('td');
+          tdAcciones.className = 'actions';
+
+          if (currentUser.role === 'docente') {
+            const editBtn = document.createElement('button');
+            editBtn.innerHTML = '✏️';
+            editBtn.title = 'Editar ítem';
+            editBtn.setAttribute('aria-label', `Editar ${item.nombre}`);
+            editBtn.addEventListener('click', () => {
+              editIndex = index;
+              nombreInput.value = item.nombre;
+              categoriaSelect.value = item.categoria;
+              cantidadInput.value = item.cantidad;
+              ubicacionInput.value = item.ubicacion;
+              costoInput.value = item.costo !== undefined ? item.costo : '';
+              imagenUrlInput.value = item.imagenUrl || '';
+              submitBtn.textContent = 'Guardar Cambios';
+              nombreInput.focus();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.innerHTML = '🗑️';
+            deleteBtn.title = 'Eliminar ítem';
+            deleteBtn.setAttribute('aria-label', `Eliminar ${item.nombre}`);
+            deleteBtn.addEventListener('click', () => {
+              if (confirm(`¿Desea eliminar el ítem "${item.nombre}"?`)) {
+                inventario.splice(index, 1);
+                saveToStorage();
+                renderTable(filterItems(searchBox.value));
+              }
+            });
+
+            tdAcciones.appendChild(editBtn);
+            tdAcciones.appendChild(deleteBtn);
+          } else {
+            tdAcciones.textContent = '—';
+            tdAcciones.style.color = '#999';
+            tdAcciones.setAttribute('aria-label', 'Sin acciones disponibles');
+          }
+
+          tr.appendChild(tdImagen);
+          tr.appendChild(tdNombre);
+          tr.appendChild(tdCategoria);
+          tr.appendChild(tdCantidad);
+          tr.appendChild(tdUbicacion);
+          tr.appendChild(tdCosto);
+          tr.appendChild(tdCostoTotal);
+          tr.appendChild(tdAcciones);
+
+          inventoryTableBody.appendChild(tr);
+        });
+        renderCategoryTotals(items);
+      }
+
+      function renderCategoryTotals(items) {
+        const totals = {};
+        items.forEach(item => {
+          const costoTotal = item.cantidad * (item.costo || 0);
+          if (!totals[item.categoria]) totals[item.categoria] = 0;
+          totals[item.categoria] += costoTotal;
+        });
+        let text = 'Costo total por categoría: ';
+        const parts = Object.entries(totals).map(([cat, val]) => `${cat}: $${val.toFixed(2)}`);
+        if (parts.length) {
+          text += parts.join(' | ');
+        } else {
+          text = '';
+        }
+        categoryTotalsDiv.textContent = text;
+      }
+
+      function filterItems(query) {
+        query = query.trim().toLowerCase();
+        if (!query) return inventario;
+        return inventario.filter(item =>
+          item.nombre.toLowerCase().includes(query) ||
+          item.categoria.toLowerCase().includes(query)
+        );
+      }
+
+      function isValidUrl(string) {
+        try {
+          new URL(string);
+          return true;
+        } catch (_) {
+          return false;
+        }
+      }
+
+      itemForm.addEventListener('submit', e => {
+        e.preventDefault();
+        if (currentUser?.role !== 'docente') {
+          alert('No tiene permiso para modificar el inventario.');
+          return;
+        }
+        const nombre = nombreInput.value.trim();
+        const categoria = categoriaSelect.value;
+        const cantidad = Number(cantidadInput.value);
+        const ubicacion = ubicacionInput.value.trim();
+        const costo = Number(costoInput.value);
+        const imagenUrl = imagenUrlInput.value.trim();
+
+        if (!nombre || !categoria || !cantidad || !ubicacion || isNaN(costo) || costo < 0) {
+          alert('Por favor, complete todos los campos correctamente.');
+          return;
+        }
+
+        if (imagenUrl && !isValidUrl(imagenUrl)) {
+          alert('La URL de la imagen no es válida.');
+          return;
+        }
+
+        const nuevoItem = { nombre, categoria, cantidad, ubicacion, costo, imagenUrl: imagenUrl || null };
+
+        if (editIndex !== null) {
+          inventario[editIndex] = nuevoItem;
+          editIndex = null;
+          submitBtn.textContent = 'Agregar Ítem';
+        } else {
+          inventario.push(nuevoItem);
+        }
+        saveToStorage();
+        renderTable(filterItems(searchBox.value));
+        clearForm();
+      });
+
+      searchBox.addEventListener('input', () => {
+        renderTable(filterItems(searchBox.value));
+      });
+
+      loginForm.addEventListener('submit', e => {
+        e.preventDefault();
+        const username = usernameInput.value.trim().toLowerCase();
+        const password = passwordInput.value;
+
+        if (!users[username]) {
+          errorMsg.textContent = 'Usuario no encontrado.';
+          passwordInput.value = '';
+          return;
+        }
+
+        if (users[username].password !== password) {
+          errorMsg.textContent = 'Contraseña incorrecta.';
+          passwordInput.value = '';
+          return;
+        }
+
+        currentUser = { username, role: users[username].role };
+        errorMsg.textContent = '';
+        loginForm.reset();
+        loginSection.classList.add('hidden');
+        inventorySection.classList.remove('hidden');
+        updateUIForRole();
+        renderTable(inventario);
+      });
+
+      importFile.addEventListener('change', e => {
+        if (currentUser?.role !== 'docente') return;
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const extension = file.name.split('.').pop().toLowerCase();
+
+        if (extension === 'pdf') {
+          alert('La importación desde PDF no está disponible en esta versión.');
+          importFile.value = '';
+          return;
+        }
+
+        if (extension === 'xlsx' || extension === 'xls') {
+          const reader = new FileReader();
+          reader.onload = event => {
+            try {
+              const data = new Uint8Array(event.target.result);
+              const workbook = XLSX.read(data, { type: 'array' });
+              const firstSheetName = workbook.SheetNames[0];
+              const worksheet = workbook.Sheets[firstSheetName];
+              const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
+
+              if (jsonData.length === 0) {
+                alert('El archivo Excel está vacío.');
+                importFile.value = '';
+                return;
+              }
+              const hasHeaders = ['nombre', 'categoria', 'cantidad', 'ubicacion', 'costo'].every(h =>
+                Object.keys(jsonData[0]).map(k => k.toLowerCase()).includes(h));
+              if (!hasHeaders) {
+                alert('El archivo Excel debe contener encabezados: nombre, categoria, cantidad, ubicacion, costo.');
+                importFile.value = '';
+                return;
+              }
+
+              if (confirm('Se importará el inventario del archivo y reemplazará el actual. ¿Desea continuar?')) {
+                inventario = jsonData.map(item => ({
+                  nombre: item.nombre || item.Nombre || '',
+                  categoria: item.categoria || item.Categoria || '',
+                  cantidad: Number(item.cantidad || item.Cantidad || 0),
+                  ubicacion: item.ubicacion || item.Ubicacion || '',
+                  costo: Number(item.costo || item.Costo || 0),
+                  imagenUrl: item.imagenUrl || item['imagenUrl'] || item.ImagenUrl || null
+                })).filter( item => item.nombre && item.categoria && item.cantidad && item.ubicacion );
+
+                saveToStorage();
+                renderTable(filterItems(searchBox.value));
+                clearForm();
+                importFile.value = '';
+                alert('Inventario importado exitosamente.');
+              }
+            } catch (err) {
+              alert('Error al procesar el archivo Excel. Asegúrese de que el archivo sea válido.');
+              importFile.value = '';
+            }
+          };
+          reader.readAsArrayBuffer(file);
+          return;
+        }
+
+        alert('Tipo de archivo no soportado para importación. Use Excel (.xlsx, .xls).');
+        importFile.value = '';
+      });
+
+      importLabel.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          importFile.click();
+        }
+      });
+
+      exportPdfBtn.addEventListener('click', () => {
+        if (currentUser?.role !== 'docente') {
+          alert('No tiene permiso para exportar el inventario.');
+          return;
+        }
+        if (inventario.length === 0) {
+          alert('No hay datos para exportar.');
+          return;
+        }
+
+        const doc = new jsPDF();
+        const pageWidth = doc.internal.pageSize.getWidth();
+        doc.setFontSize(16);
+        doc.setTextColor(46, 125, 50);
+        doc.text('Inventario COBAEH', pageWidth / 2, 15, { align: 'center' });
+        doc.setFontSize(10);
+        doc.setTextColor(0,0,0);
+
+        const columns = [
+          { header: 'Nombre', dataKey: 'nombre' },
+          { header: 'Categoría', dataKey: 'categoria' },
+          { header: 'Cantidad', dataKey: 'cantidad' },
+          { header: 'Ubicación', dataKey: 'ubicacion' },
+          { header: 'Costo Unit.', dataKey: 'costo' },
+          { header: 'Costo Total', dataKey: 'costoTotal' }
+        ];
+
+        const rows = inventario.map(item => ({
+          nombre: item.nombre,
+          categoria: item.categoria,
+          cantidad: item.cantidad,
+          ubicacion: item.ubicacion,
+          costo: item.costo.toFixed(2),
+          costoTotal: (item.cantidad * item.costo).toFixed(2)
+        }));
+
+        if (doc.autoTable) {
+          doc.autoTable({
+            head: [columns.map(c => c.header)],
+            body: rows.map(r => columns.map(c => r[c.dataKey])),
+            startY: 25,
+            theme: 'grid',
+            headStyles: { fillColor: [46, 125, 50] },
+            styles: { fontSize: 8 },
+            margin: { left: 8, right: 8 }
+          });
+          doc.save('inventario_cobaeh.pdf');
+        } else {
+          let y = 25;
+          const lineHeight = 7;
+          columns.forEach((col, i) => {
+            doc.text(col.header, 10 + i * 30, y);
+          });
+          y += lineHeight;
+          rows.forEach(row => {
+            columns.forEach((col, i) => {
+              doc.text(String(row[col.dataKey]).substring(0,15), 10 + i * 30, y);
+            });
+            y += lineHeight;
+            if(y > 275){
+              doc.addPage();
+              y = 20;
+            }
+          });
+          doc.save('inventario_cobaeh.pdf');
+        }
+      });
+
+      exportExcelBtn.addEventListener('click', () => {
+        if (currentUser?.role !== 'docente') {
+          alert('No tiene permiso para exportar el inventario.');
+          return;
+        }
+        if (inventario.length === 0) {
+          alert('No hay datos para exportar.');
+          return;
+        }
+
+        const ws_data = [];
+        ws_data.push(['Nombre', 'Categoría', 'Cantidad', 'Ubicación', 'Costo Unitario', 'Imagen URL']);
+        inventario.forEach(item => {
+          ws_data.push([
+            item.nombre,
+            item.categoria,
+            item.cantidad,
+            item.ubicacion,
+            item.costo.toFixed(2),
+            item.imagenUrl || ''
+          ]);
+        });
+
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.aoa_to_sheet(ws_data);
+        XLSX.utils.book_append_sheet(wb, ws, 'Inventario');
+
+        XLSX.writeFile(wb, 'inventario_cobaeh.xlsx');
+      });
+
+      function setTheme(theme){
+        if(theme === 'dark'){
+          document.body.classList.add('dark');
+          themeToggle.textContent = 'Modo Claro';
+          localStorage.setItem('theme', 'dark');
+        } else {
+          document.body.classList.remove('dark');
+          themeToggle.textContent = 'Modo Oscuro';
+          localStorage.setItem('theme', 'light');
+        }
+      }
+      themeToggle.addEventListener('click', () => {
+        if(document.body.classList.contains('dark')){
+          setTheme('light');
+        } else {
+          setTheme('dark');
+        }
+      });
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      setTheme(savedTheme);
+
+      renderTable(inventario);
+    })();</script>
+  </script>
+</body>
+</html>
